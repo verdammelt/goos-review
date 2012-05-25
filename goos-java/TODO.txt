@@ -1,0 +1,7 @@
+single item join, lose without bidding
+single item join, bid & lose
+single item join, bid & win
+single item  show price dtails
+multiple items
+add new items through the UI
+stop bidding at stop price
