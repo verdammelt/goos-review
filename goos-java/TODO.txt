@@ -1,4 +1,4 @@
-single item join, lose without bidding
+x single item join, lose without bidding
 single item join, bid & lose
 single item join, bid & win
 single item  show price dtails
