@@ -1,4 +1,4 @@
-package auctionsniper;
+package auctionsniper.endtoend;
 
 import org.jivesoftware.smack.XMPPException;
 import org.junit.After;

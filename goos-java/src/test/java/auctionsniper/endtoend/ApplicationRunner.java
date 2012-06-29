@@ -1,4 +1,7 @@
-package auctionsniper;
+package auctionsniper.endtoend;
+
+import auctionsniper.Main;
+import auctionsniper.MainWindow;
 
 public class ApplicationRunner {
     private static final String
@@ -15,9 +18,9 @@ public class ApplicationRunner {
             @Override
             public void run() {
                 try {
-                    Main.main(FakeAuctionServer.XMPP_HOSTNAME,
-                              SNIPER_ID, SNIPER_PASSWORD,
-                              auction.getItemId());
+                    Main.main(FakeAuctionServer.XMPP_HOSTNAME, SNIPER_ID,
+                              SNIPER_PASSWORD, auction
+                            .getItemId());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
