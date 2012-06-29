@@ -6,7 +6,6 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.Message;
 
 import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -50,7 +49,7 @@ public class FakeAuctionServer {
     }
 
     public void announceClosed() throws XMPPException {
-        currentChat.sendMessage(new Message());
+        currentChat.sendMessage("SOLVersion: 1.1; Event: CLOSE");
     }
 
     public void stop() {
