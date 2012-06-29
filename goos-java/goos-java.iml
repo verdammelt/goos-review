@@ -12,10 +12,17 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.igniterealtime.smack:smack:3.2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.10" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.googlecode.windowlicker:windowlicker-swing:r268" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.googlecode.windowlicker:windowlicker-core:r268" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-all:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-all:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.jmock:jmock-legacy:2.5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.jmock:jmock:2.5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-library:1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.objenesis:objenesis:1.0" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.1_3" level="project" />
+    <orderEntry type="library" name="Maven: org.jmock:jmock-junit4:2.4.0" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit-dep:4.4" level="project" />
   </component>
 </module>
 

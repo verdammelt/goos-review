@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Main {
+public class Main implements AuctionEventListener {
     private static MainWindow ui;
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
@@ -43,18 +43,7 @@ public class Main {
         ChatManager chatManager = connection.getChatManager();
         Chat chat = chatManager
                 .createChat(auctionId(itemId, connection),
-                            new MessageListener() {
-                    @Override
-                    public void processMessage(
-                            Chat chat, Message message) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                ui.showStatus(MainWindow.STATUS_LOST);
-                            }
-                        });
-                    }
-                });
+                            new AuctionMessageTranslator(this));
         this.notToBeGCCd = chat;
         chat.sendMessage(new Message(JOIN_COMMAND_FORMAT));
     }
@@ -85,6 +74,15 @@ public class Main {
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
                 ui = new MainWindow();
+            }
+        });
+    }
+
+    @Override public void auctionClosed() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ui.showStatus(MainWindow.STATUS_LOST);
             }
         });
     }
