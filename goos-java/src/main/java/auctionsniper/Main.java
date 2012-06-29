@@ -4,6 +4,8 @@ import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.Message;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Main {
     private static MainWindow ui;
@@ -16,6 +18,10 @@ public class Main {
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
     private static final String AUCTION_ID_FORMAT =
             ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
+
+    public static final String JOIN_COMMAND_FORMAT = null;
+    public static final String BID_COMMAND_FORMAT =
+            "SOLVersion: 1.1; Command BID; Price: %d;";
 
     @SuppressWarnings({"UnusedDeclaration", "FieldCanBeLocal"})
     private Chat notToBeGCCd;
@@ -33,6 +39,7 @@ public class Main {
 
     private void joinAuction(XMPPConnection connection, String itemId)
             throws XMPPException {
+        disconnectWhenUiCloses(connection);
         ChatManager chatManager = connection.getChatManager();
         Chat chat = chatManager
                 .createChat(auctionId(itemId, connection),
@@ -49,7 +56,15 @@ public class Main {
                     }
                 });
         this.notToBeGCCd = chat;
-        chat.sendMessage(new Message());
+        chat.sendMessage(new Message(JOIN_COMMAND_FORMAT));
+    }
+
+    private void disconnectWhenUiCloses(final XMPPConnection connection) {
+        ui.addWindowListener(new WindowAdapter() {
+            @Override public void windowClosed(WindowEvent windowEvent) {
+                connection.disconnect();
+            }
+        });
     }
 
     private static String auctionId(String itemId, XMPPConnection connection) {
