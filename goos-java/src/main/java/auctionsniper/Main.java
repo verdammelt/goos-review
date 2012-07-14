@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Main implements AuctionEventListener {
+public class Main implements SniperListener {
     private static MainWindow ui;
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
@@ -40,11 +40,22 @@ public class Main implements AuctionEventListener {
     private void joinAuction(XMPPConnection connection, String itemId)
             throws XMPPException {
         disconnectWhenUiCloses(connection);
-        ChatManager chatManager = connection.getChatManager();
-        Chat chat = chatManager
-                .createChat(auctionId(itemId, connection),
-                            new AuctionMessageTranslator(this));
+        final Chat chat = connection
+                .getChatManager()
+                .createChat(auctionId(itemId, connection), null);
         this.notToBeGCCd = chat;
+
+        Auction auction = new Auction() {
+            @Override public void bid(int amount) {
+                try {
+                    chat.sendMessage(String.format(BID_COMMAND_FORMAT, amount));
+                } catch (XMPPException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
+
         chat.sendMessage(new Message(JOIN_COMMAND_FORMAT));
     }
 
@@ -78,16 +89,19 @@ public class Main implements AuctionEventListener {
         });
     }
 
-    @Override public void auctionClosed() {
+    @Override public void sniperLost() {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 ui.showStatus(MainWindow.STATUS_LOST);
             }
         });
     }
 
-    @Override public void currentPrice(int price, int increment) {
-
+    @Override public void sniperBidding() {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override public void run() {
+                ui.showStatus(MainWindow.STATUS_BIDDING);
+            }
+        });
     }
 }
