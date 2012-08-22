@@ -1,6 +1,6 @@
 x single item join, lose without bidding
 x single item join, bid & lose
-single item join, bid & win
+x single item join, bid & win
 single item  show price details
 multiple items
 add new items through the UI
