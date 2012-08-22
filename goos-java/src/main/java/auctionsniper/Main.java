@@ -52,7 +52,7 @@ public class Main {
         SniperStateDisplayer displayer = new SniperStateDisplayer();
         AuctionSniper sniper = new AuctionSniper(auction, displayer);
         AuctionMessageTranslator listener =
-                new AuctionMessageTranslator(sniper);
+                new AuctionMessageTranslator(connection.getUser(), sniper);
         chat.addMessageListener(listener);
 
         auction.join();
@@ -119,6 +119,14 @@ public class Main {
 
         @Override public void sniperBidding() {
             showStatus(MainWindow.STATUS_BIDDING);
+        }
+
+        @Override public void sniperWinning() {
+            showStatus(MainWindow.STATUS_WINNING);
+        }
+
+        @Override public void sniperWon() {
+            showStatus(MainWindow.STATUS_WON);
         }
 
         private void showStatus(final String status) {
