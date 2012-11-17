@@ -3,6 +3,7 @@ package auctionsniper.test;
 import auctionsniper.Auction;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
+import auctionsniper.SniperState;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.States;
@@ -14,13 +15,17 @@ import static auctionsniper.AuctionEventListener.PriceSource;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
+    private static final String ITEM_ID = "auction-12345";
+
     private final Mockery context = new Mockery();
     private final SniperListener sniperListener = context.mock(SniperListener.class);
     private final Auction auction = context.mock(Auction.class);
-    private final AuctionSniper sniper = new AuctionSniper(auction, sniperListener);
+    private final AuctionSniper sniper = new AuctionSniper(auction, sniperListener, ITEM_ID);
+
     private final States sniperState = context.states("sniper");
 
-    @Test public void reportsLostWhenAuctionClosesImmediately() {
+    @Test
+    public void reportsLostWhenAuctionClosesImmediately() {
         context.checking(new Expectations() {{
             atLeast(1).of(sniperListener).sniperLost();
         }});
@@ -28,10 +33,11 @@ public class AuctionSniperTest {
         sniper.auctionClosed();
     }
 
-    @Test public void reportsLostWhenAuctionClosesWhenBidding() {
+    @Test
+    public void reportsLostWhenAuctionClosesWhenBidding() {
         context.checking(new Expectations() {{
             ignoring(auction);
-            allowing(sniperListener).sniperBidding();
+            allowing(sniperListener).sniperBidding(with(any(SniperState.class)));
             then(sniperState.is("bidding"));
 
             atLeast(1).of(sniperListener).sniperLost();
@@ -42,9 +48,10 @@ public class AuctionSniperTest {
         sniper.auctionClosed();
     }
 
-    @Test public void reportsWonIfAuctionClosesWhenWinning() {
+    @Test
+    public void reportsWonIfAuctionClosesWhenWinning() {
         context.checking(new Expectations() {{
-        ignoring(auction);
+            ignoring(auction);
             allowing(sniperListener).sniperWinning();
             then(sniperState.is("winning"));
 
@@ -56,7 +63,8 @@ public class AuctionSniperTest {
         sniper.auctionClosed();
     }
 
-    @Test public void reportsIsWinningWhenCurrentPriceComesFromSniper() {
+    @Test
+    public void reportsIsWinningWhenCurrentPriceComesFromSniper() {
         context.checking(new Expectations() {{
             atLeast(1).of(sniperListener).sniperWinning();
         }});
@@ -64,12 +72,14 @@ public class AuctionSniperTest {
         sniper.currentPrice(123, 45, PriceSource.FromSniper);
     }
 
-    @Test public void bidsHigherAndReportsBiddingWhenNewPriceArrives() {
+    @Test
+    public void bidsHigherAndReportsBiddingWhenNewPriceArrives() {
         final int price = 1001;
         final int increment = 25;
-        context.checking(new Expectations(){{
-            one(auction).bid(price+increment);
-            atLeast(1).of(sniperListener).sniperBidding();
+        final int bid = price + increment;
+        context.checking(new Expectations() {{
+            one(auction).bid(bid);
+            atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, price, bid));
         }});
 
         sniper.currentPrice(price, increment, PriceSource.FromOtherBidder);

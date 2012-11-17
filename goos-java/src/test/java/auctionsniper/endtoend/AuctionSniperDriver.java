@@ -25,7 +25,8 @@ public class AuctionSniperDriver extends JFrameDriver {
     }
 
     public void showsSniperStatus(String itemId, int lastPrice, int lastBid, String statusText) {
-        new JTableDriver(this).hasRow(matching(
+        JTableDriver table = new JTableDriver(this);
+        table.hasRow(matching(
                 withLabelText(itemId),
                 withLabelText(String.valueOf(lastPrice)),
                 withLabelText(String.valueOf(lastBid)),
