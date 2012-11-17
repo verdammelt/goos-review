@@ -1,12 +1,11 @@
 package auctionsniper;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
-    public static final String SNIPER_TABLE_NAME = "sniper status";
+    public static final String SNIPERS_TABLE_NAME = "sniper status";
     public static final String STATUS_JOINING = "joining";
     public static final String STATUS_LOST = "lost";
     public static final String STATUS_BIDDING = "bidding";
@@ -32,11 +31,15 @@ public class MainWindow extends JFrame {
 
     private JTable makeSnipersTable() {
         final JTable snipersTable = new JTable(snipers);
-        snipersTable.setName(SNIPER_TABLE_NAME);
+        snipersTable.setName(SNIPERS_TABLE_NAME);
         return snipersTable;
     }
 
     public void showStatus(String statusText) {
         snipers.setStatusText(statusText);
+    }
+
+    public void sniperStatusChanged(SniperState sniperState, String statusText) {
+        snipers.snipersStatusChanged(sniperState, statusText);
     }
 }

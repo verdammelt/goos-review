@@ -4,6 +4,7 @@ import auctionsniper.Main;
 import auctionsniper.MainWindow;
 
 public class ApplicationRunner {
+
     private static final String SNIPER_ID = "sniper";
     private static final String SNIPER_PASSWORD = "sniper";
     private AuctionSniperDriver driver;
@@ -31,7 +32,7 @@ public class ApplicationRunner {
         thread.setDaemon(true);
         thread.start();
         driver = new AuctionSniperDriver(1000);
-        driver.showsSniperStatus(itemId, 0, 0, MainWindow.STATUS_JOINING);
+        driver.showsSniperStatus("", 0, 0, MainWindow.STATUS_JOINING);
     }
 
     public void stop() {
