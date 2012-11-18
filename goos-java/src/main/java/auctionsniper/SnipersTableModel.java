@@ -4,11 +4,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class SnipersTableModel extends AbstractTableModel {
     private static String[] STATUS_TEXT = {
-            MainWindow.STATUS_JOINING,
-            MainWindow.STATUS_BIDDING,
-            MainWindow.STATUS_WINNING,
-            MainWindow.STATUS_LOST,
-            MainWindow.STATUS_WON
+            "joining", "bidding", "winning", "lost", "won"
     };
     private static final SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
     private SniperSnapshot snapshot = STARTING_UP;
@@ -21,6 +17,11 @@ public class SnipersTableModel extends AbstractTableModel {
     @Override
     public int getColumnCount() {
         return Column.values().length;
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return Column.at(column).name;
     }
 
     @Override

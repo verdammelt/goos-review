@@ -7,14 +7,11 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
     public static final String SNIPERS_TABLE_NAME = "sniper status";
-    public static final String STATUS_JOINING = "joining";
-    public static final String STATUS_LOST = "lost";
-    public static final String STATUS_BIDDING = "bidding";
-    public static final String STATUS_WINNING = "winning";
-    public static final String STATUS_WON = "won";
+    public static final String APPLICATION_TITLE = "foobar";
 
     public MainWindow(SnipersTableModel snipers) {
         super("Auction Sniper");
+        setTitle(APPLICATION_TITLE);
         setName(MAIN_WINDOW_NAME);
         fillContentPane(makeSnipersTable(snipers));
         pack();
