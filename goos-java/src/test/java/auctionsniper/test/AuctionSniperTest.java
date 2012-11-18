@@ -11,8 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static auctionsniper.AuctionEventListener.PriceSource;
-import static auctionsniper.SniperState.BIDDING;
-import static auctionsniper.SniperState.WINNING;
+import static auctionsniper.SniperState.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(JMock.class)
@@ -29,7 +28,7 @@ public class AuctionSniperTest {
     @Test
     public void reportsLostWhenAuctionClosesImmediately() {
         context.checking(new Expectations() {{
-            atLeast(1).of(sniperListener).sniperLost();
+            atLeast(1).of(sniperListener).sniperStateChanged(with(aSniperThatIs(LOST)));
         }});
 
         sniper.auctionClosed();
@@ -42,7 +41,9 @@ public class AuctionSniperTest {
             allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
             then(sniperState.is("bidding"));
 
-            atLeast(1).of(sniperListener).sniperLost();
+            atLeast(1).of(sniperListener).sniperStateChanged(
+                    new SniperSnapshot(ITEM_ID, 123, 168, LOST)
+            );
             when(sniperState.is("bidding"));
         }});
 
@@ -59,7 +60,9 @@ public class AuctionSniperTest {
             );
             then(sniperState.is("winning"));
 
-            atLeast(1).of(sniperListener).sniperWon();
+            atLeast(1).of(sniperListener).sniperStateChanged(
+                    new SniperSnapshot(ITEM_ID, 123, 0, WON)
+            );
             when(sniperState.is("winning"));
         }});
 

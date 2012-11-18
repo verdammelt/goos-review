@@ -58,4 +58,8 @@ public class SniperSnapshot {
         result = 31 * result + (state != null ? state.hashCode() : 0);
         return result;
     }
+
+    public SniperSnapshot closed() {
+        return new SniperSnapshot(itemId, lastPrice, lastBid, state.whenAuctionClosed());
+    }
 }
