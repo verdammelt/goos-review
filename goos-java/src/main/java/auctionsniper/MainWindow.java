@@ -1,6 +1,7 @@
 package auctionsniper;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
@@ -12,12 +13,10 @@ public class MainWindow extends JFrame {
     public static final String STATUS_WINNING = "winning";
     public static final String STATUS_WON = "won";
 
-    private final SnipersTableModel snipers = new SnipersTableModel();
-
-    public MainWindow() {
+    public MainWindow(SnipersTableModel snipers) {
         super("Auction Sniper");
         setName(MAIN_WINDOW_NAME);
-        fillContentPane(makeSnipersTable());
+        fillContentPane(makeSnipersTable(snipers));
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -29,13 +28,9 @@ public class MainWindow extends JFrame {
         contentPane.add(new JScrollPane(snipersTable), BorderLayout.CENTER);
     }
 
-    private JTable makeSnipersTable() {
+    private JTable makeSnipersTable(TableModel snipers) {
         final JTable snipersTable = new JTable(snipers);
         snipersTable.setName(SNIPERS_TABLE_NAME);
         return snipersTable;
-    }
-
-    public void sniperStatusChanged(SniperSnapshot sniperSnapshot) {
-        snipers.snipersStateChanged(sniperSnapshot);
     }
 }

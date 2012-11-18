@@ -26,6 +26,8 @@ public class Main {
     public static final String BID_COMMAND_FORMAT =
             "SOLVersion: 1.1; Command BID; Price: %d;";
 
+    private final SnipersTableModel snipers = new SnipersTableModel();
+
     @SuppressWarnings({"UnusedDeclaration", "FieldCanBeLocal"})
     private Chat notToBeGCCd;
 
@@ -49,10 +51,11 @@ public class Main {
         this.notToBeGCCd = chat;
 
         Auction auction = new XMPPAuction(chat);
-        SniperStateDisplayer displayer = new SniperStateDisplayer();
-        AuctionSniper sniper = new AuctionSniper(auction, displayer, itemId);
         AuctionMessageTranslator listener =
-                new AuctionMessageTranslator(connection.getUser(), sniper);
+                new AuctionMessageTranslator(connection.getUser(),
+                        new AuctionSniper(auction,
+                                new SwingThreadSniperListener(snipers),
+                                itemId));
         chat.addMessageListener(listener);
 
         auction.join();
@@ -83,7 +86,7 @@ public class Main {
     private void startUserInterface() throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
-                ui = new MainWindow();
+                ui = new MainWindow(snipers);
             }
         });
     }
@@ -112,13 +115,18 @@ public class Main {
         }
     }
 
-    public class SniperStateDisplayer implements SniperListener {
+    public class SwingThreadSniperListener implements SniperListener {
+        private final SnipersTableModel snipers;
+
+        public SwingThreadSniperListener(SnipersTableModel snipers) {
+            this.snipers = snipers;
+        }
+
         @Override public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
-            System.out.println(sniperSnapshot);
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    ui.sniperStatusChanged(sniperSnapshot);
+                    snipers.snipersStateChanged(sniperSnapshot);
                 }
             });
         }
