@@ -118,16 +118,13 @@ public class Main {
         }
 
         @Override public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
+            System.out.println(sniperSnapshot);
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     ui.sniperStatusChanged(sniperSnapshot);
                 }
             });
-        }
-
-        @Override public void sniperWinning() {
-            showStatus(MainWindow.STATUS_WINNING);
         }
 
         @Override public void sniperWon() {
