@@ -1,5 +1,9 @@
-package auctionsniper;
+package auctionsniper.test;
 
+import auctionsniper.Column;
+import auctionsniper.SniperSnapshot;
+import auctionsniper.SniperState;
+import auctionsniper.SnipersTableModel;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;

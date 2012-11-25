@@ -1,5 +1,7 @@
-package auctionsniper;
+package auctionsniper.test;
 
+import auctionsniper.SniperSnapshot;
+import auctionsniper.SniperState;
 import org.junit.Test;
 
 import static auctionsniper.Column.*;
