@@ -52,7 +52,7 @@ public class AuctionSniperEndToEndTest {
         application.showsSniperHasWonAuction(auction, 1098); // last price
     }
 
-    @Test public void sniperBidsFormultipleItems() throws Exception {
+    @Test public void sniperBidsForMultipleItems() throws Exception {
         auction.startSellingItem();
         auction2.startSellingItem();
 
