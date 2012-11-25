@@ -7,6 +7,7 @@ import org.jivesoftware.smack.XMPPException;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import static java.lang.String.format;
 
@@ -29,26 +30,34 @@ public class Main {
     private final SnipersTableModel snipers = new SnipersTableModel();
 
     @SuppressWarnings({"UnusedDeclaration", "FieldCanBeLocal"})
-    private Chat notToBeGCCd;
+    private ArrayList<Chat> notToBeGCCd = new ArrayList<Chat>();
 
     public Main() throws Exception {
-        startUserInterface();
+        SwingUtilities.invokeAndWait(new Runnable() {
+            public void run() {
+                ui = new MainWindow(snipers);
+            }
+        });
     }
 
     static public void main(String... args) throws Exception {
         Main main = new Main();
-        main.joinAuction(connection(args[ARG_HOSTNAME], args[ARG_USERNAME],
-                                    args[ARG_PASSWORD]), args[ARG_ITEM_ID]);
+        XMPPConnection connection = connection(args[ARG_HOSTNAME], args[ARG_USERNAME],
+                args[ARG_PASSWORD]);
+        main.disconnectWhenUiCloses(connection);
+
+        for (int i = ARG_ITEM_ID; i < args.length; i++) {
+            main.joinAuction(connection, args[i]);
+        }
     }
 
     private void joinAuction(XMPPConnection connection, String itemId)
             throws XMPPException {
-        disconnectWhenUiCloses(connection);
 
         final Chat chat = connection.getChatManager()
-                                    .createChat(auctionId(itemId,
-                                                          connection), null);
-        this.notToBeGCCd = chat;
+                .createChat(auctionId(itemId,
+                        connection), null);
+        this.notToBeGCCd.add(chat);
 
         Auction auction = new XMPPAuction(chat);
         AuctionMessageTranslator listener =
@@ -63,7 +72,8 @@ public class Main {
 
     private void disconnectWhenUiCloses(final XMPPConnection connection) {
         ui.addWindowListener(new WindowAdapter() {
-            @Override public void windowClosed(WindowEvent windowEvent) {
+            @Override
+            public void windowClosed(WindowEvent windowEvent) {
                 connection.disconnect();
             }
         });
@@ -83,14 +93,6 @@ public class Main {
         return connection;
     }
 
-    private void startUserInterface() throws Exception {
-        SwingUtilities.invokeAndWait(new Runnable() {
-            public void run() {
-                ui = new MainWindow(snipers);
-            }
-        });
-    }
-
     public static class XMPPAuction implements Auction {
         private Chat chat;
 
@@ -98,11 +100,13 @@ public class Main {
             this.chat = chat;
         }
 
-        @Override public void bid(int amount) {
+        @Override
+        public void bid(int amount) {
             sendMessage(format(BID_COMMAND_FORMAT, amount));
         }
 
-        @Override public void join() {
+        @Override
+        public void join() {
             sendMessage(JOIN_COMMAND_FORMAT);
         }
 
@@ -122,7 +126,8 @@ public class Main {
             this.snipers = snipers;
         }
 
-        @Override public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
+        @Override
+        public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
