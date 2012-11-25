@@ -22,9 +22,7 @@ public class ApplicationRunner {
             @Override
             public void run() {
                 try {
-                    Main.main(FakeAuctionServer.XMPP_HOSTNAME, SNIPER_ID,
-                              SNIPER_PASSWORD, auctions[0]
-                            .getItemId());
+                    Main.main(arguments(auctions));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -36,6 +34,18 @@ public class ApplicationRunner {
         driver.hasTitle(MainWindow.APPLICATION_TITLE);
         driver.hasColumnTitles();
         driver.showsSniperStatus("", 0, 0, textFor(SniperState.JOINING));
+    }
+
+    private String[] arguments(FakeAuctionServer... auctions) {
+        String[] arguments = new String[auctions.length + 3];
+        arguments[0] = FakeAuctionServer.XMPP_HOSTNAME;
+        arguments[1] = SNIPER_ID;
+        arguments[2] = SNIPER_PASSWORD;
+        for (int i = 0; i < auctions.length; i++) {
+            arguments[i + 3] = auctions[i].getItemId();
+        }
+
+        return arguments;
     }
 
     public void stop() {
