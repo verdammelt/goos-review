@@ -17,7 +17,7 @@ public class Main {
     private static final int ARG_USERNAME = 1;
     private static final int ARG_PASSWORD = 2;
 
-    public static final String AUCTION_RESOURCE = "Auction";
+    private static final String AUCTION_RESOURCE = "Auction";
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
     private static final String AUCTION_ID_FORMAT =
             ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
@@ -28,10 +28,10 @@ public class Main {
 
     private final SnipersTableModel snipers = new SnipersTableModel();
 
-    @SuppressWarnings({"UnusedDeclaration", "FieldCanBeLocal"})
-    private ArrayList<Chat> notToBeGCCd = new ArrayList<Chat>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private final ArrayList<Chat> notToBeGCCd = new ArrayList<Chat>();
 
-    public Main() throws Exception {
+    private Main() throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
                 ui = new MainWindow(snipers);
@@ -95,7 +95,7 @@ public class Main {
     }
 
     public static class XMPPAuction implements Auction {
-        private Chat chat;
+        private final Chat chat;
 
         public XMPPAuction(Chat chat) {
             this.chat = chat;

@@ -24,13 +24,13 @@ public class AuctionSniperEndToEndTest {
         application.startBiddingIn(auction);
         auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
 
-        auction.reportPrice(1000, 98, "other bidder");
-        application.hasShownSniperIsBidding(auction, 1000, 1098);
+        auction.reportPrice(1100, 98, "other bidder");
+        application.hasShownSniperIsBidding(auction, 1100, 1198);
 
-        auction.hasReceivedBid(1098, ApplicationRunner.SNIPER_XMPP_ID);
+        auction.hasReceivedBid(1198, ApplicationRunner.SNIPER_XMPP_ID);
 
         auction.announceClosed();
-        application.showsSniperHasLostAuction(auction, 1000, 1098);
+        application.showsSniperHasLostAuction(auction, 1100, 1198);
     }
 
     @Test public void sniperWinsAnAuctionByBiddingHigher()

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasProperty;
 
-public class SingleMessageListener implements MessageListener {
+class SingleMessageListener implements MessageListener {
     private final ArrayBlockingQueue<Message> messages =
             new ArrayBlockingQueue<Message>(1);
 

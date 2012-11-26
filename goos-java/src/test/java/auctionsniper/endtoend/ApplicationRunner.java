@@ -6,7 +6,7 @@ import auctionsniper.SniperState;
 
 import static auctionsniper.SnipersTableModel.textFor;
 
-public class ApplicationRunner {
+class ApplicationRunner {
 
     private static final String SNIPER_ID = "sniper";
     private static final String SNIPER_PASSWORD = "sniper";

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "UnusedDeclaration"})
 public class Announcer<T extends EventListener> {
     private final T proxy;
     private final List<T> listeners = new ArrayList<T>();

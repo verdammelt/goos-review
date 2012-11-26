@@ -11,11 +11,11 @@ import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class FakeAuctionServer {
+class FakeAuctionServer {
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
     public static final String XMPP_HOSTNAME = "virgil.local";
     public static final String AUCTION_RESOURCE = "Auction";
-    public static final String AUCTION_PASSWORD = "auction";
+    private static final String AUCTION_PASSWORD = "auction";
 
     private final String itemId;
     private final XMPPConnection connection;
@@ -44,6 +44,7 @@ public class FakeAuctionServer {
         connection.getChatManager().addChatListener(chatListener);
     }
 
+    @SuppressWarnings("SameParameterValue")
     public void hasReceivedJoinRequestFromSniper(String sniperId) throws InterruptedException {
         receivesAMessageMatching(sniperId, equalTo(Main.JOIN_COMMAND_FORMAT));
     }
@@ -68,6 +69,7 @@ public class FakeAuctionServer {
                 increment, bidder));
     }
 
+    @SuppressWarnings("SameParameterValue")
     public void hasReceivedBid(int bid, String sniperId)
             throws InterruptedException {
         receivesAMessageMatching(sniperId,

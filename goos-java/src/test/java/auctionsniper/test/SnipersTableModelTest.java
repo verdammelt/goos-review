@@ -21,7 +21,7 @@ import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 @RunWith(JMock.class)
 public class SnipersTableModelTest {
     private final Mockery context = new Mockery();
-    private TableModelListener listener = context.mock(TableModelListener.class);
+    private final TableModelListener listener = context.mock(TableModelListener.class);
     private final SnipersTableModel model = new SnipersTableModel();
 
     @Before
@@ -115,6 +115,7 @@ public class SnipersTableModelTest {
         return model.getValueAt(row, column.ordinal()).toString();
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void assertRowMatchesSnapshot(int row, SniperSnapshot snapshot) {
          for (int i = 0; i < model.getColumnCount(); i++) {
              assertEquals(Column.at(i).valueIn(snapshot), model.getValueAt(row, i));
@@ -125,6 +126,7 @@ public class SnipersTableModelTest {
         return hasProperty("type", equalTo(TableModelEvent.INSERT));
     }
 
+    @SuppressWarnings("SameParameterValue")
     private Matcher<TableModelEvent> anInsertionAtRow(int row) {
         return samePropertyValuesAs(new TableModelEvent(model, row, 0, TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT));
     }

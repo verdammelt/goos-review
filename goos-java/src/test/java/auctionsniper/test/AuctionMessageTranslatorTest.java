@@ -16,7 +16,7 @@ import static auctionsniper.AuctionEventListener.PriceSource;
 @RunWith(JMock.class)
 public class AuctionMessageTranslatorTest {
     private final Mockery context = new JUnit4Mockery();
-    public static final Chat UNUSED_CHAT = null;
+    private static final Chat UNUSED_CHAT = null;
     private static final String SNIPER_ID = "TheSniper";
     private final AuctionEventListener listener = context.mock(AuctionEventListener.class);
     private final AuctionMessageTranslator translator = new AuctionMessageTranslator(SNIPER_ID, listener);

@@ -8,10 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static auctionsniper.AuctionEventListener.PriceSource;
-import static auctionsniper.AuctionEventListener.PriceSource.*;
+import static auctionsniper.AuctionEventListener.PriceSource.FromOtherBidder;
+import static auctionsniper.AuctionEventListener.PriceSource.FromSniper;
 
 public class AuctionMessageTranslator implements MessageListener {
-    private String sniperId;
+    private final String sniperId;
     private final AuctionEventListener listener;
 
     public AuctionMessageTranslator(

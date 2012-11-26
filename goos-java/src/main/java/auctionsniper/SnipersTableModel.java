@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SnipersTableModel extends AbstractTableModel {
-    private static String[] STATUS_TEXT = {
+    private static final String[] STATUS_TEXT = {
             "joining", "bidding", "winning", "lost", "won"
     };
 
-    private List<SniperSnapshot> snapshots = new ArrayList<SniperSnapshot>();
+    private final List<SniperSnapshot> snapshots = new ArrayList<SniperSnapshot>();
 
     @Override
     public int getRowCount() {

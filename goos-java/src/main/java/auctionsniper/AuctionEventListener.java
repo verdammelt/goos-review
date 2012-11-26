@@ -2,8 +2,8 @@ package auctionsniper;
 
 public interface AuctionEventListener {
     enum PriceSource {
-        FromSniper, FromOtherBidder;
-    };
+        FromSniper, FromOtherBidder
+    }
 
     public void auctionClosed();
 

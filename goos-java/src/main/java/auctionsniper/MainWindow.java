@@ -13,7 +13,7 @@ public class MainWindow extends JFrame {
             Announcer.to(UserRequestListener.class);
 
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
-    public static final String SNIPERS_TABLE_NAME = "sniper status";
+    private static final String SNIPERS_TABLE_NAME = "sniper status";
     public static final String APPLICATION_TITLE = "foobar";
     public static final String JOIN_BUTTON_NAME = "join button";
     public static final String NEW_ITEM_ID_NAME = "item id";
