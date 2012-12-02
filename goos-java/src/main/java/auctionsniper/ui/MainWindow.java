@@ -1,5 +1,6 @@
-package auctionsniper;
+package auctionsniper.ui;
 
+import auctionsniper.UserRequestListener;
 import auctionsniper.lib.Announcer;
 
 import javax.swing.*;

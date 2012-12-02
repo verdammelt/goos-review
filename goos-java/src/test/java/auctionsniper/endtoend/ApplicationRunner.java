@@ -1,10 +1,10 @@
 package auctionsniper.endtoend;
 
 import auctionsniper.Main;
-import auctionsniper.MainWindow;
 import auctionsniper.SniperState;
+import auctionsniper.ui.MainWindow;
 
-import static auctionsniper.SnipersTableModel.textFor;
+import static auctionsniper.ui.SnipersTableModel.textFor;
 
 class ApplicationRunner {
 

@@ -1,6 +1,6 @@
 package auctionsniper.endtoend;
 
-import auctionsniper.MainWindow;
+import auctionsniper.ui.MainWindow;
 import com.objogate.wl.swing.AWTEventQueueProber;
 import com.objogate.wl.swing.ComponentSelector;
 import com.objogate.wl.swing.driver.*;

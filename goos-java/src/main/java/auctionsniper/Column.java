@@ -1,5 +1,7 @@
 package auctionsniper;
 
+import auctionsniper.ui.SnipersTableModel;
+
 public enum Column {
     ITEM_IDENTIFIER("Item") {
         @Override
