@@ -89,7 +89,7 @@ class ApplicationRunner {
     }
 
     public void showsSniperHasFailed(FakeAuctionServer auction) {
-        //To change body of created methods use File | Settings | File Templates.
+        driver.showsSniperStatus(auction.getItemId(), 0, 0, textFor(SniperState.FAILED));
     }
 
     public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) {
