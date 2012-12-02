@@ -18,6 +18,7 @@ public class MainWindow extends JFrame {
     public static final String APPLICATION_TITLE = "foobar";
     public static final String JOIN_BUTTON_NAME = "join button";
     public static final String NEW_ITEM_ID_NAME = "item id";
+    public static final String STOP_PRICE_NAME = "stop price";
 
     public MainWindow(SniperPortfolio portfolio) {
         super("Auction Sniper");
@@ -40,6 +41,11 @@ public class MainWindow extends JFrame {
         itemIdField.setColumns(25);
         itemIdField.setName(NEW_ITEM_ID_NAME);
         controls.add(itemIdField);
+
+        final JFormattedTextField stopPriceField = new JFormattedTextField();
+        stopPriceField.setColumns(25);
+        stopPriceField.setName(STOP_PRICE_NAME);
+        controls.add(stopPriceField);
 
         JButton joinAuctionButton = new JButton("Join Auction");
         joinAuctionButton.setName(JOIN_BUTTON_NAME);
