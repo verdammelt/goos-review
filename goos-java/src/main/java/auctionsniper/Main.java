@@ -1,5 +1,6 @@
 package auctionsniper;
 
+import auctionsniper.lib.Announcer;
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
 import org.jivesoftware.smack.Chat;
@@ -54,21 +55,16 @@ public class Main {
             @Override
             public void joinAuction(String itemId) {
                 snipers.addSniper(SniperSnapshot.joining(itemId));
-                final Chat chat = connection.getChatManager()
+
+                Chat chat = connection.getChatManager()
                         .createChat(auctionId(itemId,
                                 connection), null);
                 notToBeGCCd.add(chat);
 
-                Auction auction = new XMPPAuction(chat);
-                AuctionMessageTranslator listener =
-                        new AuctionMessageTranslator(connection.getUser(),
-                                new AuctionSniper(auction,
-                                        new SwingThreadSniperListener(snipers),
-                                        itemId));
-                chat.addMessageListener(listener);
+                Auction auction = new XMPPAuction(chat, connection.getUser());
+                auction.addAuctionEventListener(new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId));
 
                 auction.join();
-
             }
         });
     }
@@ -98,9 +94,18 @@ public class Main {
 
     public static class XMPPAuction implements Auction {
         private final Chat chat;
+        private Announcer<AuctionEventListener> auctionEventListeners;
 
-        public XMPPAuction(Chat chat) {
+        public XMPPAuction(Chat chat, String sniperId) {
             this.chat = chat;
+            this.auctionEventListeners = Announcer.to(AuctionEventListener.class);
+
+            chat.addMessageListener(new AuctionMessageTranslator(sniperId, auctionEventListeners.announce()));
+        }
+
+        @Override
+        public void addAuctionEventListener(AuctionEventListener listener) {
+            auctionEventListeners.addListener(listener);
         }
 
         @Override
