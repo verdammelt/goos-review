@@ -14,7 +14,8 @@ public class AuctionSniper implements AuctionEventListener {
 
     @Override
     public void auctionFailed() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        snapshot = snapshot.failed();
+        notifyChange();
     }
 
     public void auctionClosed() {
