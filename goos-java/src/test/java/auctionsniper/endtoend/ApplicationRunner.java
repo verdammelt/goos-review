@@ -87,4 +87,12 @@ class ApplicationRunner {
         driver.showsSniperStatus(auction.getItemId(), lastPrice, lastBid, textFor(SniperState.LOSING));
 
     }
+
+    public void showsSniperHasFailed(FakeAuctionServer auction) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
 }

@@ -85,4 +85,8 @@ public class FakeAuctionServer {
         messageListener.receivesAMessage(messageMatcher);
         assertThat(currentChat.getParticipant(), equalTo(sniperId));
     }
+
+    public void sendInvalidMessageContaining(String brokenMessage) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
 }
