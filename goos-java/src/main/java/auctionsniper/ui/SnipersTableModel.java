@@ -14,7 +14,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
     private final List<SniperSnapshot> snapshots = new ArrayList<SniperSnapshot>();
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private ArrayList<AuctionSniper> notToBeGCd = new ArrayList<AuctionSniper>();
+    private final ArrayList<AuctionSniper> notToBeGCd = new ArrayList<AuctionSniper>();
 
     @Override
     public int getRowCount() {

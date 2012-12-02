@@ -7,7 +7,7 @@ import auctionsniper.utilities.FakeAuctionServer;
 
 import static auctionsniper.ui.SnipersTableModel.textFor;
 
-public class ApplicationRunner {
+class ApplicationRunner {
 
     private static final String SNIPER_ID = "sniper";
     private static final String SNIPER_PASSWORD = "sniper";

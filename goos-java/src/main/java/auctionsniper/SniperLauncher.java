@@ -6,7 +6,7 @@ public class SniperLauncher implements UserRequestListener {
     private final AuctionHouse auctionHouse;
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private final ArrayList<Auction> notToBeGCd = new ArrayList<Auction>();
-    private SniperCollector collector;
+    private final SniperCollector collector;
 
     public SniperLauncher(SniperCollector collector, AuctionHouse auctionHouse) {
         this.collector = collector;
