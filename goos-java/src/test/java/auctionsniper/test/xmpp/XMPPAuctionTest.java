@@ -36,6 +36,11 @@ public class XMPPAuctionTest {
     private AuctionEventListener auctionClosedListener(final CountDownLatch auctionWasClosed) {
         return new AuctionEventListener() {
             @Override
+            public void auctionFailed() {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
             public void auctionClosed() {
                 auctionWasClosed.countDown();
             }

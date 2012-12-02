@@ -34,7 +34,7 @@ public class AuctionMessageTranslatorTest {
 
     @Test
     public void notifiesBidDetailsWhenCurrentPriceMessageReceivedFromOtherBidder() {
-        context.checking(new Expectations(){{
+        context.checking(new Expectations() {{
             exactly(1).of(listener).currentPrice(192, 7, PriceSource.FromOtherBidder);
         }});
         Message message = new Message();
@@ -45,12 +45,36 @@ public class AuctionMessageTranslatorTest {
 
     @Test
     public void notifiesBidDetailsWhenCurrentPriceMessageReceivedFromSniper() {
-        context.checking(new Expectations(){{
+        context.checking(new Expectations() {{
             exactly(1).of(listener).currentPrice(234, 5, PriceSource.FromSniper);
         }});
         Message message = new Message();
         message.setBody("SOLVersion: 1.1; Event: PRICE; CurrentPrice: 234; Increment: 5; Bidder: " + SNIPER_ID + ";");
 
         translator.processMessage(UNUSED_CHAT, message);
+    }
+
+    @Test
+    public void notifiesAuctionFailedWhenBadMessageReceived() {
+        context.checking(new Expectations() {{
+            exactly(1).of(listener).auctionFailed();
+        }});
+
+        Message message = new Message();
+        message.setBody("a bad message");
+
+        translator.processMessage(UNUSED_CHAT, message);
+    }
+
+    @Test
+    public void notifiesAuctionFailedWhenEventTypeMissing() {
+        context.checking(new Expectations() {{
+            exactly(1).of(listener).auctionFailed();
+        }});
+
+        Message message = new Message();
+        message.setBody("SOLVersion: 1.1; CurrentPrice: 234; Increment: 5; Bidder: " + SNIPER_ID + ";");
+        translator.processMessage(UNUSED_CHAT, message);
+
     }
 }
