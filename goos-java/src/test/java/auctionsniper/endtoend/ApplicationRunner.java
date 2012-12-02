@@ -3,10 +3,11 @@ package auctionsniper.endtoend;
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
+import auctionsniper.utilities.FakeAuctionServer;
 
 import static auctionsniper.ui.SnipersTableModel.textFor;
 
-class ApplicationRunner {
+public class ApplicationRunner {
 
     private static final String SNIPER_ID = "sniper";
     private static final String SNIPER_PASSWORD = "sniper";

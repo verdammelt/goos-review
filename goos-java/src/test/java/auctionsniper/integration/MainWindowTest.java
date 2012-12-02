@@ -14,7 +14,8 @@ public class MainWindowTest {
     private final MainWindow mainWindow = new MainWindow(tableModel);
     private final AuctionSniperDriver driver = new AuctionSniperDriver(100);
 
-    @Test public void makesUserRequestWhenJoinButtonClicked() {
+    @Test
+    public void makesUserRequestWhenJoinButtonClicked() {
         final ValueMatcherProbe<String> buttonProbe =
                 new ValueMatcherProbe<String>(equalTo("thing"),
                         "join request");
@@ -29,5 +30,4 @@ public class MainWindowTest {
         driver.startBiddingFor("thing");
         driver.check(buttonProbe);
     }
-
 }

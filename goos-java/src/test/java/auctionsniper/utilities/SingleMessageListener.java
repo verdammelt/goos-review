@@ -1,4 +1,4 @@
-package auctionsniper.endtoend;
+package auctionsniper.utilities;
 
 import org.hamcrest.Matcher;
 import org.jivesoftware.smack.Chat;

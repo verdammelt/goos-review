@@ -1,5 +1,6 @@
-package auctionsniper;
+package auctionsniper.test.xmpp;
 
+import auctionsniper.AuctionEventListener;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.packet.Message;
@@ -11,7 +12,7 @@ import static auctionsniper.AuctionEventListener.PriceSource;
 import static auctionsniper.AuctionEventListener.PriceSource.FromOtherBidder;
 import static auctionsniper.AuctionEventListener.PriceSource.FromSniper;
 
-public class AuctionMessageTranslator implements MessageListener {
+class AuctionMessageTranslator implements MessageListener {
     private final String sniperId;
     private final AuctionEventListener listener;
 

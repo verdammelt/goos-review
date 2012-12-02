@@ -1,5 +1,6 @@
 package auctionsniper.endtoend;
 
+import auctionsniper.utilities.FakeAuctionServer;
 import org.jivesoftware.smack.XMPPException;
 import org.junit.After;
 import org.junit.Test;
