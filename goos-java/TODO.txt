@@ -3,7 +3,7 @@ x single item join, bid & lose
 x single item join, bid & win
 x single item  show price details
 x multiple items
-add new items through the UI
+x add new items through the UI
 stop bidding at stop price
 translator - invalid message from Auction
 translator - incorrect message version
