@@ -7,7 +7,6 @@ import auctionsniper.xmpp.XMPPAuctionHouse;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 public class Main {
     private static MainWindow ui;
@@ -16,9 +15,6 @@ public class Main {
     private static final int ARG_PASSWORD = 2;
 
     private final SnipersTableModel snipers = new SnipersTableModel();
-
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private final ArrayList<Auction> notToBeGCCd = new ArrayList<Auction>();
 
     private Main() throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
@@ -36,16 +32,8 @@ public class Main {
     }
 
     private void addUserRequestListenersFor(final XMPPAuctionHouse auctionHouse) {
-        ui.addUserRequestListener(new UserRequestListener() {
-            @Override
-            public void joinAuction(String itemId) {
-                snipers.addSniper(SniperSnapshot.joining(itemId));
-                Auction auction = auctionHouse.auctionFor(itemId);
-                notToBeGCCd.add(auction);
-                auction.addAuctionEventListener(new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId));
-                auction.join();
-            }
-        });
+        UserRequestListener listener = new SniperLauncher(snipers, auctionHouse);
+        ui.addUserRequestListener(listener);
     }
 
     private void disconnectWhenUiCloses(final XMPPAuctionHouse auctionHouse) {
@@ -55,23 +43,5 @@ public class Main {
                 auctionHouse.disconnect();
             }
         });
-    }
-
-    private static class SwingThreadSniperListener implements SniperListener {
-        private final SnipersTableModel snipers;
-
-        public SwingThreadSniperListener(SnipersTableModel snipers) {
-            this.snipers = snipers;
-        }
-
-        @Override
-        public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    snipers.snipersStateChanged(sniperSnapshot);
-                }
-            });
-        }
     }
 }
