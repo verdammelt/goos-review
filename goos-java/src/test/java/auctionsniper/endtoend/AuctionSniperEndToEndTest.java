@@ -129,7 +129,9 @@ public class AuctionSniperEndToEndTest {
 
     private void waitForAnotherAuctionEvent() throws Exception {
         auction2.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
-        auction.reportPrice(600, 6, "other bidder");
+        auction2.reportPrice(600, 6, "other bidder");
+        auction2.reportPrice(600, 6, "other bidder");
+        auction2.reportPrice(600, 6, "other bidder");
         application.hasShownSniperIsBidding(auction2, 600, 606);
     }
 

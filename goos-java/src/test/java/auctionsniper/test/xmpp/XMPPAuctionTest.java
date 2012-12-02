@@ -37,7 +37,7 @@ public class XMPPAuctionTest {
         return new AuctionEventListener() {
             @Override
             public void auctionFailed() {
-                //To change body of implemented methods use File | Settings | File Templates.
+//                auctionWasClosed.countDown();
             }
 
             @Override

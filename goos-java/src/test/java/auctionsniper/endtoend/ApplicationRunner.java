@@ -93,6 +93,6 @@ class ApplicationRunner {
     }
 
     public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) {
-        //To change body of created methods use File | Settings | File Templates.
+
     }
 }

@@ -10,9 +10,10 @@ import org.jivesoftware.smack.XMPPException;
 import static java.lang.String.format;
 
 public class  XMPPAuction implements Auction {
-    public static final String JOIN_COMMAND_FORMAT = null;
+    public static final String JOIN_COMMAND_FORMAT =
+            "SOLVersion: 1.1; Event: JOIN;";
     public static final String BID_COMMAND_FORMAT =
-            "SOLVersion: 1.1; Command BID; Price: %d;";
+            "SOLVersion: 1.1; Event: BID; Price: %d;";
 
     public static final String AUCTION_RESOURCE = "Auction";
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
@@ -23,8 +24,22 @@ public class  XMPPAuction implements Auction {
     private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
 
     public XMPPAuction(XMPPConnection connection, String itemId) {
-        this.chat = connection.getChatManager().createChat(auctionId(itemId, connection),
-                new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce()));
+        AuctionMessageTranslator translator = translatorFor(connection);
+        this.chat = connection.getChatManager()
+                .createChat(auctionId(itemId, connection), translator);
+        addAuctionEventListener(chatDisconnectorFor(translator));
+    }
+
+    private AuctionMessageTranslator translatorFor(XMPPConnection connection) {
+        return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce());
+    }
+
+    private AuctionEventListener chatDisconnectorFor(final AuctionMessageTranslator translator) {
+        return new AuctionEventListener() {
+            @Override public void auctionFailed() { chat.removeMessageListener(translator); }
+            @Override public void auctionClosed() { }
+            @Override public void currentPrice(int price, int increment, PriceSource fromOtherBidder) { }
+        };
     }
 
     private String auctionId(String itemId, XMPPConnection connection) {
