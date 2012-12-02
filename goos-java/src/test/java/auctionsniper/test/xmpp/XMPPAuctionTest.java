@@ -3,6 +3,7 @@ package auctionsniper.test.xmpp;
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.utilities.FakeAuctionServer;
+import auctionsniper.xmpp.XMPPAuctionHouse;
 import org.jivesoftware.smack.XMPPConnection;
 import org.junit.Test;
 
@@ -20,7 +21,9 @@ public class XMPPAuctionTest {
 
         CountDownLatch auctionWasClosed = new CountDownLatch(1);
 
-        Auction auction = new XMPPAuction(connection, auctionServer.getItemId());
+        XMPPAuctionHouse auctionHouse = new XMPPAuctionHouse(connection);
+
+        Auction auction = auctionHouse.auctionFor(auctionServer.getItemId());
         auction.addAuctionEventListener(auctionClosedListener(auctionWasClosed));
 
         auction.join();

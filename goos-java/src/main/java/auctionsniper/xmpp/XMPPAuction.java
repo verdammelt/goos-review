@@ -1,4 +1,4 @@
-package auctionsniper.test.xmpp;
+package auctionsniper.xmpp;
 
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
@@ -9,7 +9,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import static java.lang.String.format;
 
-public class XMPPAuction implements Auction {
+public class  XMPPAuction implements Auction {
     public static final String JOIN_COMMAND_FORMAT = null;
     public static final String BID_COMMAND_FORMAT =
             "SOLVersion: 1.1; Command BID; Price: %d;";

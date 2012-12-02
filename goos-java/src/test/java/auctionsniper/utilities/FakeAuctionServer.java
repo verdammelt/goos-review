@@ -6,8 +6,8 @@ import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
-import static auctionsniper.test.xmpp.XMPPAuction.BID_COMMAND_FORMAT;
-import static auctionsniper.test.xmpp.XMPPAuction.JOIN_COMMAND_FORMAT;
+import static auctionsniper.xmpp.XMPPAuction.BID_COMMAND_FORMAT;
+import static auctionsniper.xmpp.XMPPAuction.JOIN_COMMAND_FORMAT;
 import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
