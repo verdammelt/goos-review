@@ -1,9 +1,6 @@
 package auctionsniper.test;
 
-import auctionsniper.Column;
-import auctionsniper.Defect;
-import auctionsniper.SniperSnapshot;
-import auctionsniper.SniperState;
+import auctionsniper.*;
 import auctionsniper.ui.SnipersTableModel;
 import org.hamcrest.Matcher;
 import org.jmock.Expectations;
@@ -54,8 +51,8 @@ public class SnipersTableModelTest {
             oneOf(listener).tableChanged(with(aRowChangedEvent()));
         }});
 
-        model.addSniper(joining);
-        model.snipersStateChanged(bidding);
+        model.addSniper(new AuctionSniper(null, bidding.itemId));
+        model.sniperStateChanged(bidding);
 
         assertRowMatchesSnapshot(0, bidding);
     }
@@ -68,7 +65,7 @@ public class SnipersTableModelTest {
 
         assertEquals(0, model.getRowCount());
 
-        model.addSniper(joining);
+        model.addSniper(new AuctionSniper(null, joining.itemId));
 
         assertEquals(1, model.getRowCount());
         assertRowMatchesSnapshot(0, joining);
@@ -79,8 +76,8 @@ public class SnipersTableModelTest {
             ignoring(listener);
         }});
 
-        model.addSniper(SniperSnapshot.joining("item 0"));
-        model.addSniper(SniperSnapshot.joining("item 1"));
+        model.addSniper(new AuctionSniper(null, "item 0"));
+        model.addSniper(new AuctionSniper(null, "item 1"));
 
         assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
         assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
@@ -91,11 +88,11 @@ public class SnipersTableModelTest {
             ignoring(listener);
         }});
 
-        model.addSniper(SniperSnapshot.joining("item 0"));
+        model.addSniper(new AuctionSniper(null, "item 0"));
         SniperSnapshot joining2 = SniperSnapshot.joining("item 1");
-        model.addSniper(joining2);
+        model.addSniper(new AuctionSniper(null, joining2.itemId));
 
-        model.snipersStateChanged(joining2.bidding(1, 1));
+        model.sniperStateChanged(joining2.bidding(1, 1));
 
         assertEquals(SnipersTableModel.textFor(SniperState.JOINING),
                 cellValue(0, Column.SNIPER_STATE));
@@ -111,8 +108,8 @@ public class SnipersTableModelTest {
 
         SniperSnapshot other = SniperSnapshot.joining("item 1");
 
-        model.addSniper(SniperSnapshot.joining("item 0"));
-        model.snipersStateChanged(other.bidding(1, 1));
+        model.addSniper(new AuctionSniper(null, "item 0"));
+        model.sniperStateChanged(other.bidding(1, 1));
     }
 
     private String cellValue(int row, Column column) {

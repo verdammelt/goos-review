@@ -1,20 +1,20 @@
 package auctionsniper.ui;
 
-import auctionsniper.Column;
-import auctionsniper.Defect;
-import auctionsniper.SniperSnapshot;
-import auctionsniper.SniperState;
+import auctionsniper.*;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SnipersTableModel extends AbstractTableModel {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
     private static final String[] STATUS_TEXT = {
             "joining", "bidding", "winning", "lost", "won"
     };
 
     private final List<SniperSnapshot> snapshots = new ArrayList<SniperSnapshot>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private ArrayList<AuctionSniper> notToBeGCd = new ArrayList<AuctionSniper>();
 
     @Override
     public int getRowCount() {
@@ -40,7 +40,7 @@ public class SnipersTableModel extends AbstractTableModel {
         return STATUS_TEXT[state.ordinal()];
     }
 
-    public void snipersStateChanged(SniperSnapshot newSnapshot) {
+    public void sniperStateChanged(SniperSnapshot newSnapshot) {
         int row = rowMatching(newSnapshot);
         snapshots.set(row, newSnapshot);
         fireTableRowsUpdated(row, row);
@@ -55,8 +55,34 @@ public class SnipersTableModel extends AbstractTableModel {
         throw new Defect("No sniper found for item " + snapshot.itemId);
     }
 
-    public void addSniper(SniperSnapshot snapshot) {
-        this.snapshots.add(snapshot);
-        fireTableRowsInserted(0, 0);
+    @Override
+    public void addSniper(AuctionSniper sniper) {
+        notToBeGCd.add(sniper);
+        addSniperSnapshot(sniper.getSnapshot());
+        sniper.addSniperListener(new SwingThreadSniperListener(this));
+    }
+
+    private void addSniperSnapshot(SniperSnapshot snapshot) {
+        snapshots.add(snapshot);
+        int row = snapshots.size() - 1;
+        fireTableRowsInserted(row, row);
+    }
+
+    private static class SwingThreadSniperListener implements SniperListener {
+        private final SnipersTableModel snipers;
+
+        public SwingThreadSniperListener(SnipersTableModel snipers) {
+            this.snipers = snipers;
+        }
+
+        @Override
+        public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    snipers.sniperStateChanged(sniperSnapshot);
+                }
+            });
+        }
     }
 }

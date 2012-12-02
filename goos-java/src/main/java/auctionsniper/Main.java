@@ -26,14 +26,16 @@ public class Main {
 
     static public void main(String... args) throws Exception {
         Main main = new Main();
-        XMPPAuctionHouse auctionHouse = XMPPAuctionHouse.connect(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]);
+        XMPPAuctionHouse auctionHouse =
+                XMPPAuctionHouse.connect(args[ARG_HOSTNAME],
+                        args[ARG_USERNAME],
+                        args[ARG_PASSWORD]);
         main.disconnectWhenUiCloses(auctionHouse);
         main.addUserRequestListenersFor(auctionHouse);
     }
 
     private void addUserRequestListenersFor(final XMPPAuctionHouse auctionHouse) {
-        UserRequestListener listener = new SniperLauncher(snipers, auctionHouse);
-        ui.addUserRequestListener(listener);
+        ui.addUserRequestListener(new SniperLauncher(snipers, auctionHouse));
     }
 
     private void disconnectWhenUiCloses(final XMPPAuctionHouse auctionHouse) {

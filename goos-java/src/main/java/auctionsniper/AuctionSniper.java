@@ -2,12 +2,11 @@ package auctionsniper;
 
 public class AuctionSniper implements AuctionEventListener {
     private final Auction auction;
-    private final SniperListener sniperListener;
+    private SniperListener sniperListener;
     private SniperSnapshot snapshot;
 
-   public AuctionSniper(Auction auction, SniperListener sniperListener, String itemId) {
+    public AuctionSniper(Auction auction, String itemId) {
         this.auction = auction;
-        this.sniperListener = sniperListener;
         this.snapshot = SniperSnapshot.joining(itemId);
     }
 
@@ -34,5 +33,13 @@ public class AuctionSniper implements AuctionEventListener {
 
     private void notifyChange() {
         sniperListener.sniperStateChanged(snapshot);
+    }
+
+    public SniperSnapshot getSnapshot() {
+        return snapshot;
+    }
+
+    public void addSniperListener(SniperListener listener) {
+        sniperListener = listener;
     }
 }
