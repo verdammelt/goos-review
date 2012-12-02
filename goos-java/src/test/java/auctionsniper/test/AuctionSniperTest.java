@@ -22,7 +22,7 @@ public class AuctionSniperTest {
     private final Mockery context = new Mockery();
     private final SniperListener sniperListener = context.mock(SniperListener.class);
     private final Auction auction = context.mock(Auction.class);
-    private final AuctionSniper sniper = new AuctionSniper(auction, ITEM_ID);
+    private final AuctionSniper sniper = new AuctionSniper(auction, new Item(ITEM_ID, 2000));
 
     private final States sniperState = context.states("sniper");
 
@@ -104,6 +104,26 @@ public class AuctionSniperTest {
         }});
 
         sniper.currentPrice(price, increment, PriceSource.FromOtherBidder);
+    }
+
+    @Test
+    public void doesNotBidAndReportsLosingIfSubsequentPriceIsAboveStopPrice() {
+        allowingSniperBidding();
+        context.checking(new Expectations() {{
+            int bid = 123 + 45;
+            allowing(auction).bid(bid);
+            atLeast(1).of(sniperListener).sniperStateChanged(
+                    new SniperSnapshot(ITEM_ID, 2345, bid, LOSING));
+        }});
+        sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
+        sniper.currentPrice(2345, 45, PriceSource.FromOtherBidder);
+    }
+
+    private void allowingSniperBidding() {
+        context.checking(new Expectations(){{
+            allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
+            then(sniperState.is("bidding"));
+        }});
     }
 
     private Matcher<SniperSnapshot> aSniperThatIs(SniperState state) {

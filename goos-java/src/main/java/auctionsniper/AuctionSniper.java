@@ -4,10 +4,12 @@ public class AuctionSniper implements AuctionEventListener {
     private final Auction auction;
     private SniperListener sniperListener;
     private SniperSnapshot snapshot;
+    private Item item;
 
-    public AuctionSniper(Auction auction, String itemId) {
+    public AuctionSniper(Auction auction, Item item) {
         this.auction = auction;
-        this.snapshot = SniperSnapshot.joining(itemId);
+        this.snapshot = SniperSnapshot.joining(item.itemId);
+        this.item = item;
     }
 
     public void auctionClosed() {
@@ -24,8 +26,12 @@ public class AuctionSniper implements AuctionEventListener {
                 break;
             case FromOtherBidder:
                 final int bid = price + increment;
-                auction.bid(bid);
-                snapshot = snapshot.bidding(price, bid);
+                if (item.allowsBid(bid)) {
+                    auction.bid(bid);
+                    snapshot = snapshot.bidding(price, bid);
+                } else {
+                    snapshot = snapshot.losing(price);
+                }
                 break;
         }
         notifyChange();
