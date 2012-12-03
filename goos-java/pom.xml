@@ -36,5 +36,10 @@
             <artifactId>jmock-junit4</artifactId>
             <version>2.6.0-RC2</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.1</version>
+        </dependency>
     </dependencies>
 </project>

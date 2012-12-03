@@ -1,11 +1,15 @@
 package auctionsniper.endtoend;
 
+import auctionsniper.AuctionLogDriver;
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
 import auctionsniper.utilities.FakeAuctionServer;
 
+import java.io.IOException;
+
 import static auctionsniper.ui.SnipersTableModel.textFor;
+import static org.hamcrest.core.StringContains.containsString;
 
 class ApplicationRunner {
 
@@ -13,6 +17,7 @@ class ApplicationRunner {
     private static final String SNIPER_PASSWORD = "sniper";
     private AuctionSniperDriver driver;
 
+    private AuctionLogDriver logDriver = new AuctionLogDriver();
     public static final String SNIPER_XMPP_ID =
             SNIPER_ID +
                     "@" + FakeAuctionServer.XMPP_HOSTNAME +
@@ -21,20 +26,23 @@ class ApplicationRunner {
     public void startBiddingIn(final FakeAuctionServer... auctions) {
         startSniper();
         for (FakeAuctionServer auction : auctions) {
-            final String itemId = auction.getItemId();
-            driver.startBiddingFor(itemId, Integer.MAX_VALUE);
-            driver.showsSniperStatus(itemId, 0, 0, textFor(SniperState.JOINING));
+            openBiddingFor(auction, Integer.MAX_VALUE);
         }
     }
 
     public void startBiddingWithStopPrice(FakeAuctionServer auction, int stopPrice) {
         startSniper();
+        openBiddingFor(auction, stopPrice);
+    }
+
+    private void openBiddingFor(FakeAuctionServer auction, int stopPrice) {
         final String itemId = auction.getItemId();
         driver.startBiddingFor(itemId, stopPrice);
         driver.showsSniperStatus(itemId, 0, 0, textFor(SniperState.JOINING));
     }
 
     private void startSniper() {
+        logDriver.clearLog();
         Thread thread = new Thread("Test application") {
             @Override
             public void run() {
@@ -92,7 +100,7 @@ class ApplicationRunner {
         driver.showsSniperStatus(auction.getItemId(), 0, 0, textFor(SniperState.FAILED));
     }
 
-    public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) {
-
+    public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) throws IOException {
+        logDriver.hasEntry(containsString(brokenMessage));
     }
 }
