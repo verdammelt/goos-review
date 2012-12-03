@@ -11,13 +11,14 @@ import java.io.IOException;
 import static auctionsniper.ui.SnipersTableModel.textFor;
 import static org.hamcrest.core.StringContains.containsString;
 
+@SuppressWarnings("SameParameterValue")
 class ApplicationRunner {
 
     private static final String SNIPER_ID = "sniper";
     private static final String SNIPER_PASSWORD = "sniper";
     private AuctionSniperDriver driver;
 
-    private AuctionLogDriver logDriver = new AuctionLogDriver();
+    private final AuctionLogDriver logDriver = new AuctionLogDriver();
     public static final String SNIPER_XMPP_ID =
             SNIPER_ID +
                     "@" + FakeAuctionServer.XMPP_HOSTNAME +
@@ -100,6 +101,7 @@ class ApplicationRunner {
         driver.showsSniperStatus(auction.getItemId(), 0, 0, textFor(SniperState.FAILED));
     }
 
+    @SuppressWarnings("UnusedParameters")
     public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) throws IOException {
         logDriver.hasEntry(containsString(brokenMessage));
     }

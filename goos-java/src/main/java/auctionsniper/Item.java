@@ -2,7 +2,7 @@ package auctionsniper;
 
 public class Item {
     public final String itemId;
-    public final int stopPrice;
+    private final int stopPrice;
 
     public Item(String itemId, int stopPrice) {
         this.itemId = itemId;

@@ -1,5 +1,6 @@
 package auctionsniper;
 
+import auctionsniper.xmpp.XMPPAuctionHouse;
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.Matcher;
 
@@ -10,14 +11,14 @@ import java.util.logging.LogManager;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AuctionLogDriver {
-    public static final String LOG_FILE_NAME = "auction-sniper.log";
-    private final File logFile = new File(LOG_FILE_NAME);
+    private final File logFile = new File(XMPPAuctionHouse.LOG_FILE_NAME);
 
     public void hasEntry(Matcher<String> matcher) throws IOException {
         assertThat(FileUtils.readFileToString(logFile), matcher);
     }
 
     public void clearLog() {
+        //noinspection ResultOfMethodCallIgnored
         logFile.delete();
         LogManager.getLogManager().reset();
     }

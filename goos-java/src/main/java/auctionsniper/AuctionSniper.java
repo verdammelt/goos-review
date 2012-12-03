@@ -4,9 +4,9 @@ import auctionsniper.lib.Announcer;
 
 public class AuctionSniper implements AuctionEventListener {
     private final Auction auction;
-    private Announcer<SniperListener> listeners = Announcer.to(SniperListener.class);
+    private final Announcer<SniperListener> listeners = Announcer.to(SniperListener.class);
     private SniperSnapshot snapshot;
-    private Item item;
+    private final Item item;
 
     public AuctionSniper(Auction auction, Item item) {
         this.auction = auction;

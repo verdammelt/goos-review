@@ -15,6 +15,7 @@ import static auctionsniper.AuctionEventListener.PriceSource;
 import static auctionsniper.SniperState.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 
+@SuppressWarnings("SameParameterValue")
 @RunWith(JMock.class)
 public class AuctionSniperTest {
     private static final String ITEM_ID = "auction-12345";
